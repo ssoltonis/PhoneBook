@@ -1,0 +1,133 @@
+﻿@using System.Web.Optimization
+@model PhoneBook.Models.Contact
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Contact</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumbers, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="phoneEditor">
+                @foreach (var phone in Model.PhoneNumbers)
+                {
+                    Html.RenderPartial("Partials/_PhoneEditor", phone);
+                }
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <a id="addPhone" href="#">Add phone</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailAddresses, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="emailEditor">
+                @foreach (var email in Model.EmailAddresses)
+                {
+                    Html.RenderPartial("Partials/_EmailEditor", email);
+                }
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <a id="addEmail" href="#">Add email</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<!-- modal placeholder-->
+@*<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-10" id="replacetarget">
+        @{ Html.RenderAction("Index", "Phones", new { id = Model.Id }); }
+    </div>
+</div>*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+
+</div>
+
+<script type="text/javascript">
+
+        $('#addPhone').click(function () {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("AddPhone", new {contactId = @Model.Id })',
+                success: function (result) {
+                    $('#phoneEditor').append(result);
+                }
+            });
+        });
+
+        function removePhone(el) {
+            @*console.log('removing phone: ' + phoneid);
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("DeletePhone", new {id = 31 })',
+                success: function () {
+                    console.log('deleted');
+                }
+            });*@
+
+            var div = el.closest("div");
+            if (div)
+                div.remove();
+        }
+
+        $('#addEmail').click(function () {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("AddEmail", new {contactId = @Model.Id })',
+                success: function (result) {
+                    $('#emailEditor').append(result);
+                }
+            });
+        });
+
+        function removeEmail(el) {
+            var div = el.closest("div");
+            if (div)
+                div.remove();
+        }
+</script>

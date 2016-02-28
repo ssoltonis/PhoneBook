@@ -1,0 +1,60 @@
+﻿@using PhoneBook.Helpers
+@model IEnumerable<PhoneBook.Models.Contact>
+
+<h2>Contact List</h2>
+
+@using (Ajax.BeginForm("ContactSearch", "Contact", new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "GET",
+    UpdateTargetId = "searchResults"
+}))
+{
+    <div class="form-group form-inline">
+        <div class="btn-group">
+            @Html.TextBox("search", null, new {@class = "form-control search-box", @placeholder = "Enter part of the Name or Surname", @type = "search"})
+            <span class="search-clear glyphicon glyphicon-remove-circle"></span>
+        </div>
+        <button id="searchButton" class="btn btn-primary" href="/" type="submit" value="search"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumbers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddresses)
+        </th>
+        <th>
+            <div class="pull-right">
+                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Add new Contact", "Create", "Contact", routeValues: null, htmlAttributes: new {@class = "btn btn-primary"})
+            </div>
+        </th>
+    </tr>
+
+    <tbody id="searchResults">
+        @{
+            Html.RenderPartial("Partials/_ContactList");
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    var url = '@Url.Action("ContactSearch", "Contact")';
+
+    $(".search-clear").click(function() {
+        $(".search-box").val('');
+        $('#searchResults').load(url, { search: '' });
+    });
+
+</script>
+

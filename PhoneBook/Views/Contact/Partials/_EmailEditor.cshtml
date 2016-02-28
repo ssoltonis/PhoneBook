@@ -1,0 +1,22 @@
+﻿@using PhoneBook.Helpers
+@model PhoneBook.Models.Email
+
+<div class="phone-edit-item">
+    @using (Html.BeginCollectionItem("EmailAddresses"))
+    {
+        @Html.HiddenFor(model => Model.Id)
+        @Html.HiddenFor(model => Model.ContactId)
+
+        <table>
+            <tr class="editor-field">
+                <td>
+                    @Html.EditorFor(model => Model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => Model.EmailAddress, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <a class="btn btn-danger" data-modal="" href="#" title="Delete" onclick="removeEmail($(this))"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

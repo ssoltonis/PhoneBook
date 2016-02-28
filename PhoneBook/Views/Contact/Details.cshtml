@@ -1,0 +1,53 @@
+﻿@using System.Activities.Statements
+@model PhoneBook.Models.Contact
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumbers)
+        </dt>
+        
+        @foreach (var number in Model.PhoneNumbers) {
+            <dd>
+                @Html.DisplayFor(model => number.PhoneNumber)
+            </dd>
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddresses)
+        </dt>
+
+        @foreach (var email in Model.EmailAddresses)
+        {
+            <dd>
+                @Html.DisplayFor(model => email.EmailAddress)
+            </dd>
+        }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

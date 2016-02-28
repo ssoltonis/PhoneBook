@@ -1,0 +1,23 @@
+﻿@using PhoneBook.Helpers
+@model PhoneBook.Models.Phone
+
+<div class="phone-edit-item">
+    @using (Html.BeginCollectionItem("PhoneNumbers"))
+    {
+        @Html.HiddenFor(model => Model.Id)
+        @Html.HiddenFor(model => Model.ContactId)
+
+        <table>
+            <tr class="editor-field">
+                <td>
+                    @Html.EditorFor(model => Model.PhoneNumber, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => Model.PhoneNumber, "", new {@class = "text-danger"})
+                </td>
+                <td>
+                    <a class="btn btn-danger" data-modal="" href="#" title="Delete" onclick="removePhone($(this))"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
