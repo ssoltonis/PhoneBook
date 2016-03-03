@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PhoneBook.DAL;
 using PhoneBook.Models;
 using System.Linq.Dynamic;
+using PhoneBook.Common;
 
 namespace PhoneBook.Controllers
 {
@@ -20,6 +21,7 @@ namespace PhoneBook.Controllers
         public ActionResult Index()
         {
             var contacts = _dbContext.Contacts.ToList();
+            Logging.Info("Atidaryta kontaktų sąrašo forma");
             return View(contacts);
         }
 
@@ -29,6 +31,8 @@ namespace PhoneBook.Controllers
 
             if (!string.IsNullOrEmpty(search))
                 contacts = _dbContext.Contacts.ToList().Where(x => x.FirstName.ToLower().Contains(search) || x.LastName.ToLower().Contains(search)).ToList();
+
+            Logging.Info("Atlikta kontaktų paieška");
 
             return PartialView("Partials/_ContactList", contacts);
         }
@@ -46,6 +50,8 @@ namespace PhoneBook.Controllers
             {
                 return HttpNotFound();
             }
+
+            Logging.Info(string.Format("Peržiūrėti kontakto '{0} {1}' detalūs duomenys", contact.FirstName, contact.LastName));
             return View(contact);
         }
 
@@ -57,6 +63,8 @@ namespace PhoneBook.Controllers
                 PhoneNumbers = new List<Phone> {new Phone()},
                 EmailAddresses = new List<Email> {new Email()}
             };
+
+            Logging.Info("Atidaryta kontakto sukūrimo forma");
 
             return View(contact);
         }
