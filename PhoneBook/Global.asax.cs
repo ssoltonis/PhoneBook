@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 using PhoneBook.Common;
 
 namespace PhoneBook
@@ -17,7 +18,7 @@ namespace PhoneBook
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            Session["UserId"] = "User123";
+            Session["UserId"] = "User";
             Logging.Info("Sukurta nauja sesija");
         }
 
@@ -26,6 +27,7 @@ namespace PhoneBook
             Session["UserId"] = string.Empty;
             Logging.Info("Sesija uždaryta");
         }
+        
     }
     
 }
